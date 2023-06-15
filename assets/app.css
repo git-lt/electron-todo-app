@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    @apply table-fixed
+  }
+
+  html,
+  body,
+  #__nuxt {
+    @apply overflow-hidden w-full h-full
+  }
+
+  body {
+    @apply select-none
+  }
+}
+
+@layer utilities {
+  .safe-padding-right {
+    padding-right: env(safe-area-inset-right, 0px);
+  }
+  .safe-padding-left {
+    padding-left: env(safe-area-inset-left, 0px);
+  }
+}
