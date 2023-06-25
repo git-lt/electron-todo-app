@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-1 divide-y divide-slate-700/30">
+  <div class="grid grid-cols-1 divide-y divide-base-content/10">
     <TaskItem />
     <TaskItem />
     <TaskItem />

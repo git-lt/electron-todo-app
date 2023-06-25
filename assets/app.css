@@ -26,3 +26,15 @@
     padding-left: env(safe-area-inset-left, 0px);
   }
 }
+
+[data-theme="light"] {
+  .text-base-content {
+    @apply text-slate-800;
+  }
+}
+
+[data-theme="dark"] {
+  .text-base-content {
+    @apply text-slate-100;
+  }
+}

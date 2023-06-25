@@ -71,3 +71,33 @@ ProjectName
 DateTimeTag
 AssignStatus
 
+任务
+  进行中 。。。
+  
+看板
+  项目
+  产品线
+  周报
+  月报
+  年报
+
+设置
+  项目：
+  产品线：
+  任务分类:
+  任务标签:
+  任务进度:
+  优先级：
+  个人中心
+    用户名、头像、邮箱、
+  成员？
+  偏好设置？
+    主题
+    字体大小
+ 
+
+ 默认指派给自己
+
+
+ github登录
+ https://github.com/settings/applications/new

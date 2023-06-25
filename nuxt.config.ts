@@ -1,4 +1,4 @@
-import type { ElectronOptions } from 'nuxt-electron'
+// import type { ElectronOptions } from 'nuxt-electron'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -20,9 +20,9 @@ export default defineNuxtConfig({
     ['nuxt-lodash'],
     ['@nuxtjs/tailwindcss'],
     ['nuxt-icon'],
-    ['nuxt-electron', <ElectronOptions>{
-      include: ['electron', 'server'],
-    }],
+    // ['nuxt-electron', <ElectronOptions>{
+    //   include: ['electron', 'server'],
+    // }],
   ],
   hooks: {
     // Remove aliases to only have one

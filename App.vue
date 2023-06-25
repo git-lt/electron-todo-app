@@ -1,16 +1,18 @@
 <script lang="ts" setup>
+import { themeChange } from 'theme-change'
+
+onMounted(() => {
+  themeChange(false)
+})
 useHead({
   title: '任务管理',
-  htmlAttrs: {
-    'data-theme': 'dark',
-  },
   bodyAttrs: {},
 })
 </script>
 
 <template>
   <NuxtLayout>
-    <NuxtPage />
+    <NuxtPage class="text-base-content" />
   </NuxtLayout>
 </template>
 

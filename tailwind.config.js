@@ -1,18 +1,16 @@
 module.exports = {
   plugins: [require('daisyui')],
   daisyui: {
-    themes: true,
+    themes: ['light', 'dark'],
     darkTheme: 'dark',
     base: true,
     styled: true,
     utils: true,
-    rtl: false,
-    logs: true,
   },
   variants: {
     extend: {
       fontWeight: ['responsive', 'hover', 'focus'],
-      opacity: ['hover'],
+      opacity: ['hover', 'group-hover'],
       borderColor: ['hover', 'focus'],
       margin: ['first', 'last'],
       backgroundColor: ['odd', 'even', 'group-hover'],
@@ -21,10 +19,10 @@ module.exports = {
     },
   },
   theme: {
-    // fontSize: {
-    //   base: '13px',
-    // },
     extend: {
+      fontSize: {
+        sm: ['0.8125rem', { lineHeight: '1.2rem' }],
+      },
       animation: {
         fadeIn: '0.3s ease 0.2s 1 normal both running fadeIn',
       },

@@ -22,9 +22,6 @@ definePageMeta({
           Continue with Github
         </button>
         <button class="btn btn-block btn-neutral">
-          Continue with Wechat
-        </button>
-        <button class="btn btn-block btn-neutral">
           Continue with Email
         </button>
       </div>
