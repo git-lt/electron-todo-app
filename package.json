@@ -15,17 +15,24 @@
     "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@next-auth/prisma-adapter": "^1.0.7",
     "@pinia/nuxt": "^0.4.11",
     "@prisma/client": "4.14.1",
-    "@trpc/client": "^10.4.3",
-    "@trpc/server": "^10.4.3",
+    "@trpc/client": "^10.26.0",
+    "@trpc/server": "^10.26.0",
+    "next-auth": "^4.22.1",
+    "pinia": "^2.1.4",
     "prisma": "^4.14.1",
     "theme-change": "^2.5.0",
+    "trpc-nuxt": "^0.10.5",
     "zod": "^3.19.1"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.33.1",
     "@nuxtjs/tailwindcss": "^6.7.0",
+    "@sidebase/nuxt-auth": "0.6.0-beta.3",
+    "@vueuse/core": "^10.2.0",
+    "@vueuse/nuxt": "^10.2.0",
     "daisyui": "^3.1.0",
     "electron": "^22.0.0",
     "electron-builder": "^23.6.0",

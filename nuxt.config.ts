@@ -1,5 +1,7 @@
 // import type { ElectronOptions } from 'nuxt-electron'
 
+import { envConfig } from './envConfig'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
@@ -16,14 +18,28 @@ export default defineNuxtConfig({
   app: {
     baseURL: './',
   },
+  build: {
+    transpile: ['trpc-nuxt'],
+  },
+  runtimeConfig: {
+    NUXT_AUTH_ORIGIN: envConfig.AUTH_ORIGIN,
+  },
   modules: [
-    ['nuxt-lodash'],
-    ['@nuxtjs/tailwindcss'],
-    ['nuxt-icon'],
+    '@sidebase/nuxt-auth',
+    'nuxt-lodash',
+    '@nuxtjs/tailwindcss',
+    'nuxt-icon',
+    '@vueuse/nuxt',
     // ['nuxt-electron', <ElectronOptions>{
     //   include: ['electron', 'server'],
     // }],
   ],
+  auth: {
+    origin: envConfig.AUTH_ORIGIN,
+    enableGlobalAppMiddleware: true,
+    enableSessionRefreshPeriodically: false,
+    enableSessionRefreshOnWindowFocus: true,
+  },
   hooks: {
     // Remove aliases to only have one
     // https://github.com/nuxt/framework/issues/7277

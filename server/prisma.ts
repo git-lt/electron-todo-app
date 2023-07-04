@@ -1,6 +1,5 @@
-import path from 'path'
 import { PrismaClient } from '@prisma/client'
-import { app } from 'electron'
+// import { app } from 'electron'
 
 // Prevent multiple instances of Prisma Client in development
 // https://www.prisma.io/docs/guides/performance-and-optimization/connection-management#prevent-hot-reloading-from-creating-new-instances-of-prismaclient
@@ -8,14 +7,13 @@ import { app } from 'electron'
 declare global {
   // Must use var, not let or const: https://stackoverflow.com/questions/35074713/extending-typescript-global-object-in-node-js/68328575#68328575
   // eslint-disable-next-line no-var, vars-on-top
-  var prisma: PrismaClient
+  var prisma: PrismaClient | undefined
 }
 
-const isProduction = app.isPackaged
-const dbPath
-  = isProduction
-    ? `file:${path.join(app.getPath('userData'), 'app.db')}`
-    : process.env.DATABASE_URL
+// const globalForPrisma = globalThis as unknown as { prisma: PrismaClient }
+
+// const isProduction = app.isPackaged
+const isProduction = process.env.NODE_ENV === 'production'
 
 export const prisma = global.prisma ?? new PrismaClient({
   log: isProduction
@@ -23,7 +21,7 @@ export const prisma = global.prisma ?? new PrismaClient({
     : ['query', 'info', 'error', 'warn'],
   datasources: {
     db: {
-      url: dbPath,
+      url: process.env.DATABASE_URL,
     },
   },
 })

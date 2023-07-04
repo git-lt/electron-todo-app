@@ -5,7 +5,7 @@
       <div class="nav-panel">
         <nav class="relative flex flex-col flex-shrink-0 h-full border-r border-base-content/20">
           <div class="py-[16px] px-[12px] flex-shrink flex flex-col items-stretch gap-[12px]">
-            <NuxtLink to="/aitter/tasks/assigned">
+            <NuxtLink to="/lejian/tasks/assigned">
               <div class="flex items-center gap-2">
                 <Icon name="line-md:chevron-small-left" class="text-xl" />
                 <div class="text-xl">
@@ -24,22 +24,19 @@
               </h2>
               <ul>
                 <li class="mb-1">
-                  <a>产品线</a>
+                  <NuxtLink to="/lejian/settings/members">
+                    成员
+                  </NuxtLink>
                 </li>
                 <li class="mb-1">
-                  <a>项目</a>
+                  <NuxtLink to="/lejian/settings/product">
+                    产品线
+                  </NuxtLink>
                 </li>
                 <li class="mb-1">
-                  <a>优先级</a>
-                </li>
-                <li class="mb-1">
-                  <a>任务标签</a>
-                </li>
-                <li class="mb-1">
-                  <a>任务分类</a>
-                </li>
-                <li class="mb-1">
-                  <a>任务进度</a>
+                  <NuxtLink to="/lejian/settings/priority">
+                    优先级
+                  </NuxtLink>
                 </li>
               </ul>
             </li>
@@ -47,16 +44,60 @@
               <h2 class="menu-title">
                 <Icon name="ic:baseline-person-4" class="text-base" />
                 <!-- <Icon name="ic:baseline-manage-accounts" class="text-base" /> -->
-                个人中心
+                团队
               </h2>
               <ul>
                 <li class="mb-1">
-                  <NuxtLink to="/aitter/settings/profile">
-                    账号信息
+                  前端团队
+                  <ul>
+                    <li class="mb-1">
+                      <NuxtLink to="/lejian/teams/TEAM/general">
+                        基本信息
+                      </NuxtLink>
+                    </li>
+                    <li class="mb-1">
+                      <NuxtLink to="/lejian/teams/TEAM/members">
+                        成员
+                      </NuxtLink>
+                    </li>
+                    <li class="mb-1">
+                      <NuxtLink to="/lejian/teams/TEAM/projects">
+                        项目
+                      </NuxtLink>
+                    </li>
+                    <li class="mb-1">
+                      <NuxtLink to="/lejian/teams/TEAM/labels">
+                        任务标签
+                      </NuxtLink>
+                    </li>
+                    <li class="mb-1">
+                      <NuxtLink to="/lejian/teams/TEAM/types">
+                        任务分类
+                      </NuxtLink>
+                    </li>
+                    <li class="mb-1">
+                      <NuxtLink to="/lejian/teams/TEAM/workflow">
+                        任务进度
+                      </NuxtLink>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <h2 class="menu-title">
+                <Icon name="ic:baseline-person-4" class="text-base" />
+                <!-- <Icon name="ic:baseline-manage-accounts" class="text-base" /> -->
+                账户设置
+              </h2>
+              <ul>
+                <li class="mb-1">
+                  <NuxtLink to="/lejian/settings/profile">
+                    个人信息
                   </NuxtLink>
                 </li>
                 <li class="mb-1">
-                  <NuxtLink to="/aitter/settings/preferences">
+                  <NuxtLink to="/lejian/settings/preferences">
                     偏好设置
                   </NuxtLink>
                 </li>

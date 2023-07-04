@@ -1,6 +1,6 @@
 import { createTRPCProxyClient, httpBatchLink } from '@trpc/client'
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
-import type { AppRouter } from '~/server/trpc/routers'
+import type { AppRouter } from '~/server/trpc/router'
 import type { IpcRequest } from '~/types/Ipc'
 
 export type RouterInput = inferRouterInputs<AppRouter>

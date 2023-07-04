@@ -1,6 +1,6 @@
 import type { AnyRouter, inferRouterContext } from '@trpc/server'
+import type { HTTPRequest } from '@trpc/server/dist/http/internals/types'
 import { resolveHTTPResponse } from '@trpc/server/http'
-import type { HTTPRequest } from '@trpc/server/http'
 import type { IpcRequest, IpcResponse } from '~/types/Ipc'
 
 export default async function ipcRequestHandler<TRouter extends AnyRouter>(

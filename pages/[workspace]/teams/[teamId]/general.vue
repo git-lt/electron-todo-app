@@ -6,6 +6,6 @@ definePageMeta({
 
 <template>
   <div>
-    成员
+    <h1>团队设置</h1>
   </div>
 </template>
