@@ -2,6 +2,8 @@
 
 import { envConfig } from './envConfig'
 
+// console.log(envConfig)
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
@@ -30,6 +32,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     'nuxt-icon',
     '@vueuse/nuxt',
+    '@pinia/nuxt',
     // ['nuxt-electron', <ElectronOptions>{
     //   include: ['electron', 'server'],
     // }],
@@ -50,6 +53,9 @@ export default defineNuxtConfig({
           delete tsConfig.compilerOptions!.paths[alias]
       }
     },
+  },
+  typescript: {
+    strict: true,
   },
 })
 

@@ -2,7 +2,7 @@
 import { storeToRefs } from 'pinia'
 import { useMainStore } from '~/store'
 
-const { $client } = useNuxtApp()
+const { $trpc } = useNuxtApp()
 
 // auth state
 const { status, data, signIn, signOut, lastRefreshedAt } = useAuth()
@@ -13,14 +13,14 @@ const { count, countAuthed } = storeToRefs(useMainStore())
 // async trpc state
 const { data: hello } = await useAsyncData(
   () =>
-    $client.helloWorld.hello.query({
+    $trpc.helloWorld.hello.query({
       text: `#${count.value}`,
     }),
   { watch: [count] },
 )
 const { data: helloAuth } = await useAsyncData(
   () =>
-    $client.helloWorld.helloAuthenticated.query({
+    $trpc.helloWorld.helloAuthenticated.query({
       text: `#${countAuthed.value}`,
     }),
   { watch: [countAuthed] },
