@@ -9,6 +9,9 @@ import { prisma } from '~/server/prisma'
 export default NuxtAuthHandler({
   adapter: PrismaAdapter(prisma),
   secret: envConfig.AUTH_NUXT_SECRET,
+  // pages: {
+  //   signIn: '/login',
+  // },
   providers: [
     // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
     GithubProvider.default({

@@ -1,7 +1,13 @@
 <script lang="ts" setup>
 definePageMeta({
   layout: 'login',
+  auth: {
+    unauthenticatedOnly: true,
+    navigateAuthenticatedTo: '/',
+  },
 })
+
+const { signIn } = useAuth()
 </script>
 
 <template>
@@ -18,7 +24,7 @@ definePageMeta({
         Log in to Task
       </h1>
       <div class="flex flex-col gap-4">
-        <button class="btn btn-block btn-primary">
+        <button class="btn btn-block btn-primary" @click="signIn('github')">
           Continue with Github
         </button>
         <button class="btn btn-block btn-neutral">

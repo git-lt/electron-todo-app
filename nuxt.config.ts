@@ -17,9 +17,6 @@ export default defineNuxtConfig({
       middlewareMode: false,
     },
   },
-  app: {
-    baseURL: './',
-  },
   build: {
     transpile: ['trpc-nuxt'],
   },
@@ -33,6 +30,7 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@vueuse/nuxt',
     '@pinia/nuxt',
+    'nuxt-svgo',
     // ['nuxt-electron', <ElectronOptions>{
     //   include: ['electron', 'server'],
     // }],
