@@ -13,15 +13,16 @@ const { signIn } = useAuth()
 <template>
   <div class="w-80 animate-fadeIn">
     <div class="flex justify-center">
-      <div class="avatar">
+      <SvgoLogo class="text-[100px] inline-block" />
+      <!-- <div class="avatar">
         <div class="w-24 rounded-full">
           <img src="https://static.aitter.site/upic/2023-06/gNX4Pi.png">
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="pt-3">
       <h1 class="text-center text-lg py-6">
-        Log in to Task
+        Log in to Task Master
       </h1>
       <div class="flex flex-col gap-4">
         <button class="btn btn-block btn-primary" @click="signIn('github')">

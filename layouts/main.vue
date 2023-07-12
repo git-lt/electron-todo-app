@@ -17,7 +17,6 @@ const menuWrapHeight = useTransition(menuHeight, {
     ulEl.style.overflow = 'hidden'
   },
   onFinished: () => {
-    console.log('Transition:onFinished')
     isAnimation.value = false
     if (!collapse.value) {
       const ulEl = menuRef.value
@@ -36,14 +35,15 @@ const onToggleMenu = () => {
 
   // 切换 collapse 状态
   toggleCollapse()
-
   menuHeight.value = collapse.value ? 0 : offsetHeight.value
-  console.log(collapse.value ? '折叠' : '展开', menuHeight.value)
 }
 onMounted(() => {
   menuHeight.value = menuRef.value?.offsetHeight || 0
   offsetHeight.value = menuRef.value?.offsetHeight || 0
 })
+
+const { getSession } = useAuth()
+const account = await getSession()
 </script>
 
 <template>
@@ -59,11 +59,11 @@ onMounted(() => {
                   <div class="flex items-center gap-2 hover:bg-base-content/10 p-1 rounded-md">
                     <div class="avatar placeholder">
                       <div class="bg-indigo-400 text-primary-content w-5 rounded-md">
-                        <span class="text-xs">AA</span>
+                        <span class="text-xs">{{ account?.user?.name?.slice(0, 1) }}</span>
                       </div>
                     </div>
                     <div class="text-base-content/60 text-sm">
-                      Aitter
+                      {{ account?.user?.name }}
                     </div>
                   </div>
                 </label>
@@ -95,7 +95,7 @@ onMounted(() => {
             <!-- <BaseNavMenuItem path="/" icon="line-md:list-3-filled" name="项目" />
             <BaseNavMenuItem path="/" icon="line-md:clipboard-twotone" name="产品线" /> -->
 
-            <div class="group flex items-center text-sm rounded-md pl-2 text-base-content/80 mt-6 hover:bg-base-content/10 py-1" @click="onToggleMenu()">
+            <div class="group flex items-center text-sm rounded-md pl-2 text-base-content/80 mt-6 hover:bg-base-content/10 py-1 mb-2" @click="onToggleMenu()">
               <span>我的团队</span>
               <Icon name="ic:round-arrow-drop-down" class="text-xl -rotate-90 transition-transform" :class="{ 'rotate-0': collapse }" />
             </div>
@@ -106,17 +106,20 @@ onMounted(() => {
                 前端团队
                 <ul class="pt-1">
                   <li class="mb-1">
-                    <NuxtLink to="/lejian/teams/TEAM/members" class="pl-2 py-1">
+                    <NuxtLink to="/lejian/teams/TEAM/tasks" class="pl-2 py-1">
+                      <Icon name="ic:outline-checklist" />
                       任务
                     </NuxtLink>
                   </li>
                   <li class="mb-1">
-                    <NuxtLink to="/lejian/teams/TEAM/labels" class="pl-2 py-1">
+                    <NuxtLink to="/lejian/teams/TEAM/views" class="pl-2 py-1">
+                      <Icon name="ic:twotone-calendar-today" />
                       看板
                     </NuxtLink>
                   </li>
                   <li class="mb-1">
                     <NuxtLink to="/lejian/teams/TEAM/projects" class="pl-2 py-1">
+                      <Icon name="ic:outline-folder" />
                       项目
                     </NuxtLink>
                   </li>

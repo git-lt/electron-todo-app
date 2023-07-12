@@ -28,5 +28,6 @@ definePageMeta({
     <div>
       <TaskList />
     </div>
+    <TaskEditModal />
   </div>
 </template>
