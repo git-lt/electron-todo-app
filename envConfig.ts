@@ -12,6 +12,8 @@ const envSchema = z.object({
   AUTH_AUTH0_ISSUER: z.string().url().optional(),
   AUTH_GITHUB_CLIENT_ID: z.string().optional(),
   AUTH_GITHUB_CLIENT_SECRET: z.string().optional(),
+  AUTH_EMAIL_SERVER: z.string().optional(),
+  AUTH_EMAIL_FROM: z.string().optional(),
 })
 
 const parsedSchema = envSchema.safeParse(process.env)
