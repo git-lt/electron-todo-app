@@ -36,7 +36,7 @@ const onStart = () => {
         </ul>
       </div>
       <div class="navbar-end">
-        <span v-if="data?.user">{{ data?.user.name }}</span>
+        <span v-if="data?.user" class="mx-4">{{ data?.user.name }}</span>
         <NuxtLink v-if="!data?.user" to="/login">
           <span class="btn">登录</span>
         </NuxtLink>
@@ -45,13 +45,15 @@ const onStart = () => {
     </div>
     <div class="hero min-h-screen bg-base-200">
       <div class="hero-content text-center">
-        <div class="max-w-md">
-          <SvgoLogo class="text-[100px] inline-block" />
+        <div class="max-w-md flex flex-col items-center">
+          <div class="bg-gradient-to-bl from-primary to-primary/50  rounded-full w-32 h-32 flex justify-center items-center mb-6">
+            <SvgoLogo class="text-[90px] text-white inline-block !mb-0" />
+          </div>
           <h1 class="text-5xl font-bold">
             TASK MASTER
           </h1>
           <p class="py-6">
-            Task App是一款具有线性工作流程、团队协作、优先级管理、任务追踪、可视化界面和扩展性的任务管理工具。
+            Task Master是一款具有线性工作流程、团队协作、优先级管理、任务追踪、可视化界面和扩展性的任务管理工具。
           </p>
           <button class="btn btn-primary" @click="onStart">
             立刻开始

@@ -12,6 +12,7 @@ export default NuxtAuthHandler({
   secret: envConfig.AUTH_NUXT_SECRET,
   pages: {
     signIn: '/login',
+    verifyRequest: '/verify-request',
   },
   providers: [
     // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
@@ -26,7 +27,7 @@ export default NuxtAuthHandler({
       // from: envConfig.AUTH_EMAIL_FROM,
       server: {
         host: envConfig.AUTH_EMAIL_HOST,
-        port: envConfig.AUTH_EMAIL_PORT,
+        port: Number(envConfig.AUTH_EMAIL_PORT),
         secure: true,
         auth: {
           user: envConfig.AUTH_EMAIL_USER,
@@ -40,11 +41,5 @@ export default NuxtAuthHandler({
 
       // })
     }),
-    // Auth0Provider.default({
-    //   // https://manage.auth0.com/dashboard
-    //   clientId: envConfig.AUTH_AUTH0_CLIENT_ID,
-    //   clientSecret: envConfig.AUTH_AUTH0_CLIENT_SECRET,
-    //   issuer: envConfig.AUTH_AUTH0_ISSUER,
-    // }),
   ],
 })
