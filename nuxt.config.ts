@@ -29,6 +29,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     'nuxt-icon',
     '@vueuse/nuxt',
+    '@vueuse/motion/nuxt',
     '@pinia/nuxt',
     'nuxt-svgo',
     // ['nuxt-electron', <ElectronOptions>{

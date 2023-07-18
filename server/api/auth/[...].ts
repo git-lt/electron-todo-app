@@ -20,9 +20,20 @@ export default NuxtAuthHandler({
       clientId: envConfig.AUTH_GITHUB_CLIENT_ID,
       clientSecret: envConfig.AUTH_GITHUB_CLIENT_SECRET,
     }),
-    EmailProvider({
-      server: '',
-      from: '',
+    // @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
+    EmailProvider.default({
+      // server: envConfig.AUTH_EMAIL_SERVER,
+      // from: envConfig.AUTH_EMAIL_FROM,
+      server: {
+        host: envConfig.AUTH_EMAIL_HOST,
+        port: envConfig.AUTH_EMAIL_PORT,
+        secure: true,
+        auth: {
+          user: envConfig.AUTH_EMAIL_USER,
+          pass: envConfig.AUTH_EMAIL_PASS,
+        },
+      },
+      from: envConfig.AUTH_EMAIL_FROM,
       // sendVerificationRequest({
       //   identifier: '',
       //   url: '',

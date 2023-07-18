@@ -55,11 +55,11 @@ model Account {
 }
 
 model VerificationToken {
-  identity String
-  token String @unique
-  expires DateTime
+  identifier String
+  token      String   @unique
+  expires    DateTime
 
-  @@unique([identity, token])
+  @@unique([identifier, token])
   @@map("sys_verification_token")
 }
 
