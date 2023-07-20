@@ -2,6 +2,17 @@
 definePageMeta({
   layout: 'main',
 })
+
+const { c } = useMagicKeys()
+
+whenever(c, () => {
+  window.JSEditTaskDialog.showModal()
+})
+
+const showEditModal = () => {
+  console.log(window.JSEditTaskDialog)
+  window.JSEditTaskDialog.showModal()
+}
 // {{ $route.params.workspace }}
 //     {{ $route.params.status }}
 </script>
@@ -17,12 +28,17 @@ definePageMeta({
         </div>
       </div>
     </header>
-    <div class="flex py-2 pl-8 border-b border-base-content/20">
-      <BaseFilterTaskStatus />
-      <div class="pl-4" />
-      <button class="btn btn-xs text-base-content/80">
-        <Icon name="ic:baseline-plus" />
-        过滤
+    <div class="flex py-2 pr-1 pl-8 border-b border-base-content/20 w-full">
+      <div class="flex flex-1">
+        <BaseFilterTaskStatus />
+        <div class="pl-4" />
+        <button class="btn btn-xs text-base-content/80">
+          <Icon name="ic:baseline-plus" />
+          过滤
+        </button>
+      </div>
+      <button class="btn btn-xs text-base-content/80" @click="showEditModal">
+        <Icon name="ic:round-plus" class="text-xl" />
       </button>
     </div>
     <div>

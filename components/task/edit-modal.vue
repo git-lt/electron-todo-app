@@ -1,8 +1,8 @@
 <template>
-  <button class="btn" onclick="my_modal_1.showModal()">
+  <!-- <button class="btn" onclick="my_modal_1.showModal()">
     open modal
-  </button>
-  <dialog id="my_modal_1" class="modal">
+  </button> -->
+  <dialog id="JSEditTaskDialog" class="modal">
     <form method="dialog" class="modal-box w-11/12 max-w-2xl">
       <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
         ✕

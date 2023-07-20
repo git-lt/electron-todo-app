@@ -31,6 +31,9 @@ model User {
   image String?
   accounts Account[]
   sessions Session[]
+  workspaces Workspace[]
+  workspaceMemberships WorkspaceMembership[]
+  teamMemberships TeamMembership[]
   
   @@map("sys_user")
 }
@@ -66,9 +69,14 @@ model VerificationToken {
 model Workspace {
   id Int @id @default(autoincrement())
   name String
+  site String @unique
   createAt DateTime @map("create_at")
   updateAt DateTime @map("update_at")
-
+  owner User @relation(fields: [ownerId], references: [id])
+  ownerId String @map("owner_id")
+   members WorkspaceMembership[]
+  teams Team[]
+  products Product[]
   @@map("workspace")
 }
 
@@ -77,26 +85,52 @@ model Team {
   name String
   icon String
   identifier String
+  workspaceId Int
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
+  projects Project[]
+  members TeamMembership[]
   createAt DateTime @map("create_at")
   updateAt DateTime @map("update_at")
 
   @@map("team")
 }
 
-model Role {
+model WorkspaceMembership {
   id Int @id @default(autoincrement())
-  name String
-  createAt DateTime @map("create_at")
-  updateAt DateTime @map("update_at")
-
-  @@map("role")
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
+  workspaceId Int
+  
+  @@map("workspace_membership")
 }
+
+model TeamMembership {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  team Team @relation(fields: [teamId], references: [id])
+  teamId Int
+  role Role @default(USER)
+
+  @@map("team_membership")
+}
+
 
 model Task {
   id Int @id @default(autoincrement())
   name String
   description String
   pid Int @default(0)
+  priority Dictionary @relation(fields: [priorityId], references: [id], name: "TaskPriority" )
+  priorityId Int
+  type Dictionary @relation(fields: [typeId], references: [id], name: "TaskType")
+  typeId Int
+  progress Dictionary @relation(fields: [progressId], references: [id], name: "TaskProgress")
+  progressId Int
+  label Dictionary @relation(fields: [labelId], references: [id], name: "TaskLabel")
+  labelId Int
+  assigneeId String?
   createAt DateTime @map("create_at")
   updateAt DateTime @map("update_at")
 
@@ -107,6 +141,9 @@ model Product {
   id Int @id @default(autoincrement())
   name String
   description String
+  workspaceId Int
+  projects Project[]
+  workspace Workspace @relation(fields: [workspaceId], references: [id])
   createAt DateTime @map("create_at")
   updateAt DateTime @map("update_at")
   @@map("product")
@@ -116,6 +153,10 @@ model Project {
   id Int @id @default(autoincrement())
   name String
   description String
+  team Team @relation(fields: [teamId], references: [id])
+  teamId Int
+  product Product? @relation(fields: [productId], references: [id])
+  productId Int?
   createAt DateTime @map("create_at")
   updateAt DateTime @map("update_at")
 
@@ -125,22 +166,33 @@ model Project {
 model Dictionary {
   id Int @id @default(autoincrement())
   name String
-  code String
+  label String
+  code String?
   sort Int
-  type String
+  value Int?
+  color String?
+  icon String?
   status Int
-  createAt DateTime @map("create_at")
-  updateAt DateTime @map("update_at")
+  typeId Int
+  dictionaryType DictionaryGroup @relation(fields: [typeId], references: [id])
+  priorityTasks Task[] @relation("TaskPriority")
+  typeTasks Task[] @relation("TaskType")
+  progressTasks Task[] @relation("TaskProgress")
+  labelTasks Task[] @relation("TaskLabel")
 
   @@map("dictionary")
 }
-model DictionaryType {
+model DictionaryGroup {
   id Int @id @default(autoincrement())
   name String
+  label String
   type String
-  status Int
-  createAt DateTime @map("create_at")
-  updateAt DateTime @map("update_at")
+  dictionary Dictionary[]
 
-  @@map("dictionary_type")
+  @@map("dictionary_group")
+}
+
+enum Role {
+    ADMIN
+    USER
 }
