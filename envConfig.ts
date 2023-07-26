@@ -18,6 +18,8 @@ const envSchema = z.object({
   AUTH_EMAIL_USER: z.string().optional(),
   AUTH_EMAIL_PASS: z.string().optional(),
   AUTH_EMAIL_PORT: z.string().optional(),
+  AI_PROXY_URL: z.string().optional(),
+  AI_PROXY_KEY: z.string().optional(),
 })
 
 const parsedSchema = envSchema.safeParse(process.env)

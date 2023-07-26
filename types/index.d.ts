@@ -1,5 +1,7 @@
 export {}
 
+declare module 'vue3-markdown-it'
+
 declare global {
   // Import the types definitions
   interface Window {
