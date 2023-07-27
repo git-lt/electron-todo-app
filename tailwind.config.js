@@ -16,6 +16,7 @@ module.exports = {
       backgroundColor: ['odd', 'even', 'group-hover'],
       scale: ['hover', 'active', 'group-hover'],
       textColor: ['group-hover'],
+      transform: ['group-hover'],
     },
   },
   theme: {

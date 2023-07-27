@@ -15,6 +15,7 @@ specifiers:
   '@vueuse/nuxt': ^10.2.0
   animejs: ^3.2.1
   daisyui: ^3.1.0
+  dayjs: ^1.11.9
   electron: ^22.0.0
   electron-builder: ^23.6.0
   eslint: ^8.29.0
@@ -49,6 +50,7 @@ dependencies:
   '@trpc/server': 10.33.0
   '@types/marked': 5.0.1
   animejs: 3.2.1
+  dayjs: 1.11.9
   eventsource-parser: 1.0.0
   highlight.js: 11.8.0
   marked: 5.1.1
@@ -3583,6 +3585,10 @@ packages:
     resolution: {integrity: sha512-Vr3mLBA8qWmcuschSLAOogKgQ/Jwxulv3RNE4FXnYWRGujzrRWQI4m12fQqRkwX06C0KanhLr4hK+GydchZsaA==}
     engines: {node: '>= 12'}
     dev: true
+
+  /dayjs/1.11.9:
+    resolution: {integrity: sha512-QvzAURSbQ0pKdIye2txOzNaHmxtUBXerpY0FJsFXUMKbIZeFm5ht1LS/jFsrncjnmtv8HsG0W2g6c0zUjZWmpA==}
+    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
