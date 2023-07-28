@@ -1,11 +1,10 @@
-import type { ChatMessageRequest } from '~/types/request'
-import { appendUserMessage, getAIAnswerWithStream, initOpenAI } from '~/utils/openai'
+import type { ChatInfo } from '~/types/openai'
+import { getAIAnswerWithStream, initOpenAI } from '~/utils/openai'
 
 const openai = initOpenAI()
 export default defineEventHandler(async (event) => {
-  const body = await readBody<ChatMessageRequest>(event)
-  const { message } = body
-  const messages = appendUserMessage(message)
+  const body = await readBody<ChatInfo>(event)
+  const { messages } = body
 
   // 返回 json
   // const answer = await getAIAnswer(openai, messages)
