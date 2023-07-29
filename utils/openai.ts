@@ -31,7 +31,6 @@ export async function getAIAnswerWithStream(openai: OpenAIApi, messages: GptMess
   }, {
     responseType: 'stream',
   })
-  console.log(chatCompletion.status)
   return chatCompletion
 }
 
@@ -42,7 +41,7 @@ export async function getAIAnswer(openai: OpenAIApi, messages: GptMessage[]): Pr
       messages,
     })
     const answer = chatCompletion.data.choices[0].message?.content || ''
-    answer && addMessage(GptRole.ASSISTANT, answer)
+    // answer && addMessage(GptRole.ASSISTANT, answer)
     return answer
   }
   catch (err) {

@@ -29,6 +29,7 @@ export default defineNuxtConfig({
     'nuxt-icon',
     '@vueuse/nuxt',
     '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
     'nuxt-svgo',
     // ['nuxt-electron', <ElectronOptions>{
     //   include: ['electron', 'server'],

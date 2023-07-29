@@ -18,7 +18,9 @@ export interface PromptListResponse {
 }
 
 export interface ChatInfo {
+  roleName: string
   messages: GptMessageClient[]
+  date: Date
   model?: string
   frequency_penalty?: number
   presence_penalty?: number

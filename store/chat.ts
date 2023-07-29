@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import type { ParsedEvent, ReconnectInterval } from 'eventsource-parser'
 import { createParser } from 'eventsource-parser'
 import { useClipboard } from '@vueuse/core'
+import { useAppStore } from './app'
 import type { ChatInfo, GptMessageClient } from '~/types/openai'
 import { GptRole } from '~/types/openai'
 import promptsData from '~/assets/json/prompts.json'
@@ -14,27 +15,25 @@ export const useChatStore = defineStore('chat', () => {
   const searchPromptKeyword = ref<string>('')
   const chatHistory = ref<ChatInfo[]>([])
   const currentRole = ref<string[]>(['AI小助手'])
+  const currentChatIndex = ref<number>(-1)
   const currentRoleIndex = ref<number>()
   const withHistoryMessage = ref(true)
-  const scrollViewRef = ref()
   const showEditMessageDialog = ref(false)
   const currentMessage = ref<GptMessageClient>()
+  // const needAIAnswer = ref(false)
   const currentChat = ref<ChatInfo>({
+    roleName: 'AI小助手',
     messages: [],
+    date: new Date(),
   })
 
-  const { copy, copied, isSupported } = useClipboard()
-  const { y } = useScroll(scrollViewRef)
-
-  const scrollToBottom = () => {
-    nextTick(() => {
-      y.value = scrollViewRef.value?.scrollHeight || 0
-    })
-  }
+  const { copy, isSupported } = useClipboard()
 
   function onParse(event: ParsedEvent | ReconnectInterval) {
     if (event.type === 'event') {
       if (event.data === '[DONE]') {
+        addMessageItem(GptRole.ASSISTANT, aiSpeakContent.value)
+        aiSpeakContent.value = ''
         aiSpeaking.value = false
         return
       }
@@ -47,7 +46,7 @@ export const useChatStore = defineStore('chat', () => {
   const parser = createParser(onParse)
 
   const roleName = computed(() => {
-    return currentRole.value[0]
+    return currentChat.value?.roleName
   })
   const showPromptList = computed(() => {
     if (!searchPromptKeyword.value)
@@ -56,12 +55,22 @@ export const useChatStore = defineStore('chat', () => {
     return prompts.value.filter(v => v.toString().includes(searchPromptKeyword.value))
   })
   const roleContent = computed(() => {
-    return currentRole.value[1]
+    return currentRole.value[1] || ''
   })
 
-  function createChat(chat: ChatInfo) {
-    currentChat.value = chat
+  function resetCurrentChat(roleName = 'AI小助手') {
+    currentChat.value = {
+      roleName,
+      messages: [],
+      date: new Date(),
+    }
+    currentChatIndex.value = -1
+  }
+
+  function createChat(roleName = 'AI小助手') {
+    resetCurrentChat(roleName)
     chatHistory.value.unshift(currentChat.value)
+    currentChatIndex.value = 0
   }
   function clearChat() {
     currentChat.value.messages = []
@@ -71,11 +80,25 @@ export const useChatStore = defineStore('chat', () => {
     chatHistory.value.unshift(chat)
   }
 
-  function deleteHistory(index: number) {
+  function deleteHistory(index: number, event: Event) {
+    console.log('deleteHistory')
+    if (currentChatIndex.value === index)
+      currentChatIndex.value = -1
+
     chatHistory.value.splice(index, 1)
+
+    if (chatHistory.value.length) {
+      currentChatIndex.value = 0
+      currentChat.value = chatHistory.value[0]
+    }
+    else {
+      createChat()
+    }
+    event.stopPropagation()
   }
 
   function useHistory(index: number) {
+    currentChatIndex.value = index
     currentChat.value = chatHistory.value[index]
   }
 
@@ -92,7 +115,7 @@ export const useChatStore = defineStore('chat', () => {
     showEditMessageDialog.value = true
     currentMessage.value = item
   }
-  function copyMessageItem(index: number) {
+  function copyMessageItem(index: number, event: MouseEvent) {
     const item = currentChat.value.messages.find((v, i) => i === index)
     if (!item)
       return
@@ -101,25 +124,44 @@ export const useChatStore = defineStore('chat', () => {
       return
     }
     copy(item.content)
+    if (!event.target)
+      return
+    const { top: y, left: x } = (event.target as HTMLButtonElement).getBoundingClientRect()
+    const appStore = useAppStore()
+    appStore.showMessage({ x, y })
+  }
+
+  // 重新回答
+  function reAnswer(index: number) {
+    // 删除当前及以下回答
+    currentChat.value.messages = currentChat.value.messages.slice(0, index)
+    getAIAnswer()
+  }
+
+  // 快速回答
+  function quickAskQuestion(content: string) {
+    if (currentChat.value) {
+      addMessageItem(GptRole.USER, content)
+    }
+    else {
+      createChat()
+      addMessageItem(GptRole.USER, content)
+    }
+    getAIAnswer()
   }
 
   function setCurrentRole(role: string[]) {
     currentRole.value = role
+    createChat(role[0])
     addMessageItem(GptRole.SYSTEM, role[1])
+    getAIAnswer()
   }
 
-  async function askQuestion() {
-    const content = userMessage.value
-    if (!content)
-      return
-    // console.log(content)
-    // return
-    addMessageItem(GptRole.USER, content)
-    userMessage.value = ''
-
+  async function getAIAnswer() {
+    console.log('getAIAnswer')
     // 流
     const res = await fetch('/api/ai/chat', {
-      body: JSON.stringify(currentChat),
+      body: JSON.stringify(currentChat.value),
       method: 'POST',
     })
     if (!res.body)
@@ -130,14 +172,26 @@ export const useChatStore = defineStore('chat', () => {
     aiSpeaking.value = true
     while (aiSpeaking.value) {
       const { value, done } = await reader.read()
+      console.log(done)
       if (done) {
-        aiSpeaking.value = false
-        addMessageItem(GptRole.ASSISTANT, aiSpeakContent.value)
-        aiSpeakContent.value = ''
+        // addMessageItem(GptRole.ASSISTANT, aiSpeakContent.value)
+        // aiSpeakContent.value = ''
+        // aiSpeaking.value = false
         break
       }
       parser.feed(value)
     }
+  }
+
+  function askQuestion() {
+    const content = userMessage.value
+    if (!content)
+      return
+    addMessageItem(GptRole.USER, content)
+    userMessage.value = ''
+
+    // AI 回答
+    getAIAnswer()
   }
 
   function onKeydown(event: KeyboardEvent) {
@@ -149,12 +203,16 @@ export const useChatStore = defineStore('chat', () => {
     }
   }
 
-  watch([aiSpeakContent, currentChat], (val) => {
-    if (val)
-      scrollToBottom()
-  })
+  function init() {
+    if (chatHistory.value.length > 0 && !chatHistory.value[currentChatIndex.value]) {
+      currentChatIndex.value = 0
+      useHistory(0)
+    }
+  }
 
   return {
+    init,
+
     // history
     chatHistory,
     addHistory,
@@ -169,6 +227,8 @@ export const useChatStore = defineStore('chat', () => {
     addMessageItem,
     editMessageItem,
     copyMessageItem,
+    reAnswer,
+    quickAskQuestion,
 
     // role
     currentRoleIndex,
@@ -179,6 +239,7 @@ export const useChatStore = defineStore('chat', () => {
 
     // chat
     currentChat,
+    currentChatIndex,
     createChat,
     clearChat,
 
@@ -191,6 +252,9 @@ export const useChatStore = defineStore('chat', () => {
     aiSpeakContent,
     askQuestion,
     onKeydown,
-    scrollToBottom,
   }
+}, {
+  persist: {
+    storage: persistedState.localStorage,
+  },
 })

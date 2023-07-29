@@ -6,6 +6,11 @@ export default defineEventHandler(async (event) => {
   const body = await readBody<ChatInfo>(event)
   const { messages } = body
 
+  const msgList = messages.map((v) => {
+    return { role: v.role, content: v.content }
+  })
+  console.log(msgList)
+
   // 返回 json
   // const answer = await getAIAnswer(openai, messages)
   // setHeaders(event, {
@@ -15,7 +20,7 @@ export default defineEventHandler(async (event) => {
   // return { message: answer }
 
   // 返回流
-  const response = await getAIAnswerWithStream(openai, messages)
+  const response = await getAIAnswerWithStream(openai, msgList)
   setHeaders(event, {
     'content-type': 'text/event-stream',
     'connection': 'keep-alive',

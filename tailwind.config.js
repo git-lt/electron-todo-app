@@ -7,6 +7,7 @@ module.exports = {
     styled: true,
     utils: true,
   },
+  darkMode: ['class', '[data-theme="dark"]'],
   variants: {
     extend: {
       fontWeight: ['responsive', 'hover', 'focus'],
@@ -23,9 +24,11 @@ module.exports = {
     extend: {
       fontSize: {
         sm: ['0.8125rem', { lineHeight: '1.2rem' }],
+        md: ['0.875rem', { lineHeight: '1.25rem' }],
       },
       animation: {
         fadeIn: '0.3s ease 0.2s 1 normal both running fadeIn',
+        flipInX: '0.4s linear 0.2s 1 normal both running flipInX',
       },
       keyframes: {
         fadeIn: {
@@ -37,6 +40,30 @@ module.exports = {
           '100%': {
             opacity: 1,
             transform: 'none',
+          },
+        },
+        flipInX: {
+          'from': {
+            'transform': 'perspective(400px) rotate3d(1, 0, 0, 90deg)',
+            'animation-timing-function': 'ease-in',
+            'opacity': 0,
+          },
+
+          '40%': {
+            'transform': 'perspective(400px) rotate3d(1, 0, 0, -20deg)',
+            'animation-timing-function': 'ease-in',
+          },
+
+          '60%': {
+            transform: 'perspective(400px) rotate3d(1, 0, 0, 10deg)',
+            opacity: 1,
+          },
+
+          '80%': {
+            transform: 'perspective(400px) rotate3d(1, 0, 0, -5deg)',
+          },
+          'to': {
+            transform: 'perspective(400px)',
           },
         },
       },

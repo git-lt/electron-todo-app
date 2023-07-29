@@ -4,6 +4,7 @@ specifiers:
   '@antfu/eslint-config': ^0.33.1
   '@next-auth/prisma-adapter': ^1.0.7
   '@nuxtjs/tailwindcss': ^6.7.0
+  '@pinia-plugin-persistedstate/nuxt': ^1.1.1
   '@pinia/nuxt': ^0.4.11
   '@prisma/client': 4.14.1
   '@sidebase/nuxt-auth': '0.5'
@@ -44,6 +45,7 @@ specifiers:
 
 dependencies:
   '@next-auth/prisma-adapter': 1.0.7_afrt2cjoubnivixcsmhfowwetm
+  '@pinia-plugin-persistedstate/nuxt': 1.1.1_pgm7myc5vd3xxevzz5nkokd6ei
   '@pinia/nuxt': 0.4.11_typescript@4.9.5
   '@prisma/client': 4.14.1_prisma@4.14.1
   '@trpc/client': 10.33.0_@trpc+server@10.33.0
@@ -1453,6 +1455,21 @@ packages:
 
   /@panva/hkdf/1.1.1:
     resolution: {integrity: sha512-dhPeilub1NuIG0X5Kvhh9lH4iW3ZsHlnzwgwbOlgwQ2wG1IqFzsgHqmKPk3WzsdWAeaxKJxgM0+W433RmN45GA==}
+
+  /@pinia-plugin-persistedstate/nuxt/1.1.1_pgm7myc5vd3xxevzz5nkokd6ei:
+    resolution: {integrity: sha512-b6ZNP3Re8COmfZEpj4KQmbp2TuDKrLggDFLZa8FiJF68xE/oCsPXIuXUvAt8E4ht/5sq4Z/grlA+iGXaI2aeKQ==}
+    peerDependencies:
+      '@pinia/nuxt': ^0.4.4
+    dependencies:
+      '@nuxt/kit': 3.5.3
+      '@pinia/nuxt': 0.4.11_typescript@4.9.5
+      defu: 6.1.2
+      pinia-plugin-persistedstate: 3.2.0_pinia@2.1.4
+    transitivePeerDependencies:
+      - pinia
+      - rollup
+      - supports-color
+    dev: false
 
   /@pinia/nuxt/0.4.11_typescript@4.9.5:
     resolution: {integrity: sha512-bhuNFngJpmBCdAqWguezNJ/oJFR7wvKieqiZrmmdmPR07XjsidAw8RLXHMZE9kUm32M9E6T057OBbG/22jERTg==}
@@ -7491,6 +7508,14 @@ packages:
     resolution: {integrity: sha512-udgsAY+fTnvv7kI7aaxbqwWNb0AHiB0qBO89PZKPkoTmGOgdbrHDKD+0B2X4uTfJ/FT1R09r9gTsjUjNJotuog==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /pinia-plugin-persistedstate/3.2.0_pinia@2.1.4:
+    resolution: {integrity: sha512-tZbNGf2vjAQcIm7alK40sE51Qu/m9oWr+rEgNm/2AWr1huFxj72CjvpQcIQzMknDBJEkQznCLAGtJTIcLKrKdw==}
+    peerDependencies:
+      pinia: ^2.0.0
+    dependencies:
+      pinia: 2.1.4_typescript@4.9.5
+    dev: false
 
   /pinia/2.1.4_typescript@4.9.5:
     resolution: {integrity: sha512-vYlnDu+Y/FXxv1ABo1vhjC+IbqvzUdiUC3sfDRrRyY2CQSrqqaa+iiHmqtARFxJVqWQMCJfXx1PBvFs9aJVLXQ==}

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { themeChange } from 'theme-change'
+import { storeToRefs } from 'pinia'
+import { useAppStore } from '~/store/app'
+const appStore = useAppStore()
+const { isDark } = storeToRefs(appStore)
 
-onMounted(() => {
-  themeChange(false)
-})
 definePageMeta({
   layout: 'setting',
 })
@@ -47,7 +47,7 @@ definePageMeta({
           </div>
         </div>
         <div>
-          <select class="select w-full max-w-xs select-sm" data-choose-theme>
+          <select class="select w-full max-w-xs select-sm" :value="isDark ? 'dark' : 'light'">
             <option value="light">
               Light
             </option>

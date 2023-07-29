@@ -1,12 +1,14 @@
 <script lang="ts" setup>
-import { themeChange } from 'theme-change'
+import { useAppStore } from '~/store/app'
+const appStore = useAppStore()
 
-onMounted(() => {
-  themeChange(false)
-})
 useHead({
   title: '任务管理',
   bodyAttrs: {},
+  htmlAttrs: {
+    'data-theme': () => appStore.isDark ? 'dark' : 'light',
+    'class': () => appStore.isDark ? 'dark' : 'light',
+  },
 })
 </script>
 
