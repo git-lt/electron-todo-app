@@ -13,8 +13,8 @@ const chatStore = useChatStore()
 const appStore = useAppStore()
 const { isDark } = storeToRefs(appStore)
 
-const { currentChat, aiSpeakContent, aiSpeaking, userMessage, roleName, showPromptList, searchPromptKeyword } = storeToRefs(chatStore)
-const { onKeydown, askQuestion, setCurrentRole, clearChat, init, createChat } = chatStore
+const { currentChat, aiSpeakContent, aiSpeaking, userMessage, roleName, showPromptList, searchPromptKeyword, withHistoryMessage } = storeToRefs(chatStore)
+const { onKeydown, askQuestion, setCurrentRole, clearChat, init, createChat, toggleWithHistory } = chatStore
 const { toggleDark } = appStore
 
 const { y } = useScroll(scrollViewRef)
@@ -38,8 +38,8 @@ onMounted(() => {
 
 <template>
   <div class="h-full flex relative">
-    <div class="bg-primary pointer-events-none absolute -left-10 aspect-square w-96 rounded-full opacity-10 blur-3xl" />
-    <div class="bg-success pointer-events-none absolute aspect-square w-full rounded-full opacity-10 blur-3xl" />
+    <div class="bg-primary pointer-events-none absolute -left-10 -top-10 aspect-square w-2/5 rounded-full opacity-5 blur-3xl" />
+    <div class="bg-success pointer-events-none absolute aspect-square w-2/5 rounded-full opacity-5 blur-3xl -bottom-10 -right-10" />
     <div class="w-80 border-r h-full border-base-content/20 flex flex-col">
       <div class="p-4 border-b border-base-content/20">
         <button class="btn w-full bg-base-content/10" @click="() => createChat()">
@@ -110,8 +110,8 @@ onMounted(() => {
                   <Icon name="ic:baseline-delete-outline" class="text-2xl" />
                 </button>
               </div>
-              <div class="tooltip" data-tip="携带历史消息">
-                <button class="btn btn-circle btn-sm btn-outline border-0">
+              <div class="tooltip" :data-tip="withHistoryMessage ? '不携带历史消息' : '携带历史消息'">
+                <button class="btn btn-circle btn-sm btn-outline border-0" :class="{ 'btn-primary': withHistoryMessage }" @click="toggleWithHistory">
                   <Icon name="mi:message-alt" class="text-2xl" />
                 </button>
               </div>

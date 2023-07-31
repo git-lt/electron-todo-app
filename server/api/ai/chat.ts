@@ -25,5 +25,6 @@ export default defineEventHandler(async (event) => {
     'content-type': 'text/event-stream',
     'connection': 'keep-alive',
   })
+  console.log(response)
   return response.data
 })

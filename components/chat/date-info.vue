@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import dayjs from 'dayjs'
 
 interface Props {
-  date: Date
+  date: Date | string
 }
 const props = defineProps<Props>()
 

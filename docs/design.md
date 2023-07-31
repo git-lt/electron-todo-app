@@ -176,3 +176,12 @@ sys_team_user_role
 11. 任务进度有：计划中、设计中、开发中、测试中、已完成、已取消
 12. 任务标签有: fix、feat、chore、refactor、style、ci、perf、docs
 13. 用户有: 头像、email、名称
+
+
+## TODO
+
+1. [ ] 列出模型列表
+2. [ ] 接入 Claude 2
+3. [ ] 可调整参数
+4. [ ] 编辑消息
+5. [ ] 编辑聊天

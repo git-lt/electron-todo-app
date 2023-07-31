@@ -8,7 +8,7 @@ export interface GptMessage {
   content: string
 }
 export interface GptMessageClient extends GptMessage {
-  date: Date
+  date: Date | string
 }
 
 export type PromptItem = [ string, string]
@@ -20,7 +20,7 @@ export interface PromptListResponse {
 export interface ChatInfo {
   roleName: string
   messages: GptMessageClient[]
-  date: Date
+  date: Date | string
   model?: string
   frequency_penalty?: number
   presence_penalty?: number

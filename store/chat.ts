@@ -24,6 +24,7 @@ export const useChatStore = defineStore('chat', () => {
   const currentChat = ref<ChatInfo>({
     roleName: 'AI小助手',
     messages: [],
+    model: 'gpt-3.5-turbo',
     date: new Date(),
   })
 
@@ -157,8 +158,18 @@ export const useChatStore = defineStore('chat', () => {
     getAIAnswer()
   }
 
+  async function getModels() {
+    const res = await fetch('/api/ai/models')
+    console.log(res)
+  }
+
   async function getAIAnswer() {
     console.log('getAIAnswer')
+
+    const data = toRaw(currentChat.value)
+    if (!withHistoryMessage.value)
+      data.messages = data.messages.slice(-1)
+
     // 流
     const res = await fetch('/api/ai/chat', {
       body: JSON.stringify(currentChat.value),
@@ -204,10 +215,14 @@ export const useChatStore = defineStore('chat', () => {
   }
 
   function init() {
+    getModels()
     if (chatHistory.value.length > 0 && !chatHistory.value[currentChatIndex.value]) {
       currentChatIndex.value = 0
       useHistory(0)
     }
+  }
+  function toggleWithHistory() {
+    withHistoryMessage.value = !withHistoryMessage.value
   }
 
   return {
@@ -229,6 +244,7 @@ export const useChatStore = defineStore('chat', () => {
     copyMessageItem,
     reAnswer,
     quickAskQuestion,
+    toggleWithHistory,
 
     // role
     currentRoleIndex,
