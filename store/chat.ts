@@ -7,8 +7,11 @@ import type { ChatInfo, GptMessageClient } from '~/types/openai'
 import { GptRole } from '~/types/openai'
 import promptsData from '~/assets/json/prompts.json'
 
+const DEFAULT_MODEL = 'gpt-3.5-turbo'
+
 export const useChatStore = defineStore('chat', () => {
   const userMessage = ref('')
+  const models = ref<string[]>([])
   const aiSpeaking = ref(false)
   const aiSpeakContent = ref('')
   const prompts = ref<string[][]>(promptsData.cn)
@@ -24,7 +27,7 @@ export const useChatStore = defineStore('chat', () => {
   const currentChat = ref<ChatInfo>({
     roleName: 'AI小助手',
     messages: [],
-    model: 'gpt-3.5-turbo',
+    model: DEFAULT_MODEL,
     date: new Date(),
   })
 
@@ -63,6 +66,7 @@ export const useChatStore = defineStore('chat', () => {
     currentChat.value = {
       roleName,
       messages: [],
+      model: DEFAULT_MODEL,
       date: new Date(),
     }
     currentChatIndex.value = -1
@@ -75,6 +79,7 @@ export const useChatStore = defineStore('chat', () => {
   }
   function clearChat() {
     currentChat.value.messages = []
+    console.log(currentChat.value.messages)
   }
 
   function addHistory(chat: ChatInfo) {
@@ -159,8 +164,13 @@ export const useChatStore = defineStore('chat', () => {
   }
 
   async function getModels() {
-    const res = await fetch('/api/ai/models')
-    console.log(res)
+    const { data } = await fetch('/api/ai/models', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then(response => response.json())
+    const modelList = (data as { id: string }[]).filter(v => v.id.startsWith('gpt')).map(v => v.id)
+    models.value = modelList
   }
 
   async function getAIAnswer() {
@@ -215,6 +225,8 @@ export const useChatStore = defineStore('chat', () => {
   }
 
   function init() {
+    aiSpeakContent.value = ''
+    aiSpeaking.value = false
     getModels()
     if (chatHistory.value.length > 0 && !chatHistory.value[currentChatIndex.value]) {
       currentChatIndex.value = 0
@@ -225,8 +237,14 @@ export const useChatStore = defineStore('chat', () => {
     withHistoryMessage.value = !withHistoryMessage.value
   }
 
+  function setModel(model: string) {
+    currentChat.value.model = model
+  }
+
   return {
     init,
+    models,
+    setModel,
 
     // history
     chatHistory,

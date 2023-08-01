@@ -4,7 +4,7 @@ import { getAIAnswerWithStream, initOpenAI } from '~/utils/openai'
 const openai = initOpenAI()
 export default defineEventHandler(async (event) => {
   const body = await readBody<ChatInfo>(event)
-  const { messages } = body
+  const { messages, model } = body
 
   const msgList = messages.map((v) => {
     return { role: v.role, content: v.content }
@@ -20,11 +20,11 @@ export default defineEventHandler(async (event) => {
   // return { message: answer }
 
   // 返回流
-  const response = await getAIAnswerWithStream(openai, msgList)
+  const response = await getAIAnswerWithStream(openai, msgList, model)
   setHeaders(event, {
     'content-type': 'text/event-stream',
     'connection': 'keep-alive',
   })
-  console.log(response)
+  // console.log(response)
   return response.data
 })

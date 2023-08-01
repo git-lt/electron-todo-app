@@ -13,8 +13,8 @@ const chatStore = useChatStore()
 const appStore = useAppStore()
 const { isDark } = storeToRefs(appStore)
 
-const { currentChat, aiSpeakContent, aiSpeaking, userMessage, roleName, showPromptList, searchPromptKeyword, withHistoryMessage } = storeToRefs(chatStore)
-const { onKeydown, askQuestion, setCurrentRole, clearChat, init, createChat, toggleWithHistory } = chatStore
+const { currentChat, aiSpeakContent, aiSpeaking, userMessage, roleName, showPromptList, searchPromptKeyword, withHistoryMessage, models } = storeToRefs(chatStore)
+const { onKeydown, askQuestion, setCurrentRole, clearChat, init, createChat, toggleWithHistory, setModel } = chatStore
 const { toggleDark } = appStore
 
 const { y } = useScroll(scrollViewRef)
@@ -57,36 +57,55 @@ onMounted(() => {
     <div class="h-full flex justify-center items-center flex-1 py-8">
       <div class="w-[90%] min-w-[640px] max-w-[1200px] h-full bg-base-content/5 rounded-2xl overflow-hidden">
         <div class="flex flex-col h-full">
-          <div class="h-20 bg-slate-200 dark:bg-slate-700 p-4 flex items-center justify-between">
-            <div class="[&::selection]:text-base-content relative col-start-1 row-start-1 leading-tight motion-reduce:!opacity-100 [&::selection]:bg-blue-700/20 bg-[linear-gradient(90deg,hsl(var(--s))_0%,hsl(var(--sf))_9%,hsl(var(--pf))_42%,hsl(var(--p))_47%,hsl(var(--a))_100%)] bg-clip-text [-webkit-text-fill-color:transparent] [@supports(color:oklch(0_0_0))]:bg-[linear-gradient(90deg,hsl(var(--s))_4%,color-mix(in_oklch,hsl(var(--sf)),hsl(var(--pf)))_22%,hsl(var(--p))_45%,color-mix(in_oklch,hsl(var(--p)),hsl(var(--a)))_67%,hsl(var(--a))_100.2%)] text-2xl font-bold">
-              {{ roleName }}
-            </div>
-            <div class="dropdown dropdown-left">
-              <button tabindex="0" class="btn btn-circle btn-sm btn-outline border-0">
-                <Icon name="ic:round-repeat" class="text-base font-bold flex-shrink-0" />
-              </button>
-              <div tabindex="0" class="dropdown-content z-[1] card card-compact shadow">
-                <div class="card-body w-[800px] bg-slate-100 rounded-xl dark:bg-slate-600">
-                  <h3 class="card-title">
-                    选择预设角色
-                  </h3>
-                  <div>
-                    <input v-model.trim="searchPromptKeyword" type="text" placeholder="请输入关键字查询" class="input input-bordered input-sm w-full max-w-xs">
-                  </div>
-                  <!-- 列表 -->
-                  <div class="max-h-[50vh] overflow-y-auto">
-                    <div class="divide-y divide-base-content/20">
-                      <div v-for="(item, index) in showPromptList" :key="index" class="py-4 px-4 hover:bg-base-300 hover:cursor-pointer transition-colors duration-300" @click="setCurrentRole(item)">
-                        <div class="text-lg pb-2">
-                          {{ item[0] }}
-                        </div>
-                        <div class="text-base text-base-content/80">
-                          {{ item[1] }}
+          <div class="h-20 bg-slate-200 dark:bg-slate-700 py-4 px-8 flex items-center justify-between">
+            <div class="flex items-center">
+              <div class="[&::selection]:text-base-content relative col-start-1 row-start-1 leading-tight motion-reduce:!opacity-100 [&::selection]:bg-blue-700/20 bg-[linear-gradient(90deg,hsl(var(--s))_0%,hsl(var(--sf))_9%,hsl(var(--pf))_42%,hsl(var(--p))_47%,hsl(var(--a))_100%)] bg-clip-text [-webkit-text-fill-color:transparent] [@supports(color:oklch(0_0_0))]:bg-[linear-gradient(90deg,hsl(var(--s))_4%,color-mix(in_oklch,hsl(var(--sf)),hsl(var(--pf)))_22%,hsl(var(--p))_45%,color-mix(in_oklch,hsl(var(--p)),hsl(var(--a)))_67%,hsl(var(--a))_100.2%)] text-2xl font-bold">
+                {{ roleName }}
+              </div>
+              <div class="dropdown dropdown-right">
+                <button tabindex="0" class="btn btn-circle btn-sm btn-outline border-0">
+                  <Icon name="ic:round-repeat" class="text-base font-bold flex-shrink-0" />
+                </button>
+                <div tabindex="0" class="dropdown-content z-[1] card card-compact shadow">
+                  <div class="card-body w-[800px] bg-slate-100 rounded-xl dark:bg-slate-600">
+                    <h3 class="card-title">
+                      选择预设角色
+                    </h3>
+                    <div>
+                      <input v-model.trim="searchPromptKeyword" type="text" placeholder="请输入关键字查询" class="input input-bordered input-sm w-full max-w-xs">
+                    </div>
+                    <!-- 列表 -->
+                    <div class="max-h-[50vh] overflow-y-auto">
+                      <div class="divide-y divide-base-content/20">
+                        <div v-for="(item, index) in showPromptList" :key="index" class="py-4 px-4 hover:bg-base-300 hover:cursor-pointer transition-colors duration-300" @click="setCurrentRole(item)">
+                          <div class="text-lg pb-2">
+                            {{ item[0] }}
+                          </div>
+                          <div class="text-base text-base-content/80">
+                            {{ item[1] }}
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <div class="dropdown dropdown-left">
+                <button tabindex="0" class="btn btn-xs">
+                  {{ currentChat.model }}
+                  <Icon name="ic:round-arrow-drop-down" />
+                </button>
+                <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-md w-50">
+                  <li
+                    v-for="(item) in models" :key="item" :class="{ 'text-primary': currentChat.model === item }"
+                    @click="() => setModel(item)"
+                  >
+                    <span>{{ item }}</span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>

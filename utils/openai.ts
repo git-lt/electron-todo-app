@@ -22,10 +22,9 @@ export function appendUserMessage(message: string) {
   return addMessage(GptRole.USER, message)
 }
 
-export async function getAIAnswerWithStream(openai: OpenAIApi, messages: GptMessage[]) {
+export async function getAIAnswerWithStream(openai: OpenAIApi, messages: GptMessage[], model = 'gpt-3.5-turbo') {
   const chatCompletion = await openai.createChatCompletion({
-    // model: 'gpt-3.5-turbo',
-    model: 'gpt-4',
+    model,
     stream: true,
     messages,
   }, {
