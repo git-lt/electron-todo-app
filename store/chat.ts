@@ -23,6 +23,7 @@ export const useChatStore = defineStore('chat', () => {
   const withHistoryMessage = ref(true)
   const showEditMessageDialog = ref(false)
   const currentMessage = ref<GptMessageClient>()
+  const currentRoleType = ref(<GptRole>GptRole.USER)
   // const needAIAnswer = ref(false)
   const currentChat = ref<ChatInfo>({
     roleName: 'AI小助手',
@@ -58,9 +59,9 @@ export const useChatStore = defineStore('chat', () => {
 
     return prompts.value.filter(v => v.toString().includes(searchPromptKeyword.value))
   })
-  const roleContent = computed(() => {
-    return currentRole.value[1] || ''
-  })
+  // const roleContent = computed(() => {
+  //   return currentRole.value[1] || ''
+  // })
 
   function resetCurrentChat(roleName = 'AI小助手') {
     currentChat.value = {
@@ -159,8 +160,9 @@ export const useChatStore = defineStore('chat', () => {
   function setCurrentRole(role: string[]) {
     currentRole.value = role
     createChat(role[0])
-    addMessageItem(GptRole.SYSTEM, role[1])
-    getAIAnswer()
+    userMessage.value = role[1]
+    currentRoleType.value = GptRole.SYSTEM
+    // addMessageItem(GptRole.SYSTEM, role[1])
   }
 
   async function getModels() {
@@ -174,15 +176,13 @@ export const useChatStore = defineStore('chat', () => {
   }
 
   async function getAIAnswer() {
-    console.log('getAIAnswer')
-
-    const data = toRaw(currentChat.value)
+    const data = { ...currentChat.value }
     if (!withHistoryMessage.value)
       data.messages = data.messages.slice(-1)
 
     // 流
     const res = await fetch('/api/ai/chat', {
-      body: JSON.stringify(currentChat.value),
+      body: JSON.stringify(data),
       method: 'POST',
     })
     if (!res.body)
@@ -208,7 +208,8 @@ export const useChatStore = defineStore('chat', () => {
     const content = userMessage.value
     if (!content)
       return
-    addMessageItem(GptRole.USER, content)
+    addMessageItem(currentRoleType.value, content)
+    currentRoleType.value = GptRole.USER
     userMessage.value = ''
 
     // AI 回答
@@ -227,6 +228,7 @@ export const useChatStore = defineStore('chat', () => {
   function init() {
     aiSpeakContent.value = ''
     aiSpeaking.value = false
+    withHistoryMessage.value = true
     getModels()
     if (chatHistory.value.length > 0 && !chatHistory.value[currentChatIndex.value]) {
       currentChatIndex.value = 0
@@ -268,7 +270,8 @@ export const useChatStore = defineStore('chat', () => {
     currentRoleIndex,
     currentRole,
     roleName,
-    roleContent,
+    currentRoleType,
+    // roleContent,
     setCurrentRole,
 
     // chat

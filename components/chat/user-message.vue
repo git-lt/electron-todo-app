@@ -14,7 +14,7 @@ defineProps<Props>()
       <ChatMsgTool class="opacity-0 group-hover:opacity-100 transition-opacity" :index="index" :role="data.role" />
       <DateInfo :date="data.date" class="ml-4" />
     </div>
-    <div class="rounded-lg  bg-slate-50  dark:bg-slate-600 dark:text-white px-4 py-2 text-md animate-fadeIn">
+    <div class="rounded-lg  bg-primary-content  dark:bg-slate-600 dark:text-white px-4 py-2 text-md animate-fadeIn">
       <BaseMarkdownContent :value="data.content" />
     </div>
     <div class="avatar placeholder ml-4">

@@ -13,7 +13,7 @@ const chatStore = useChatStore()
 const appStore = useAppStore()
 const { isDark } = storeToRefs(appStore)
 
-const { currentChat, aiSpeakContent, aiSpeaking, userMessage, roleName, showPromptList, searchPromptKeyword, withHistoryMessage, models } = storeToRefs(chatStore)
+const { currentChat, aiSpeakContent, aiSpeaking, userMessage, roleName, showPromptList, searchPromptKeyword, withHistoryMessage, models, currentRoleType } = storeToRefs(chatStore)
 const { onKeydown, askQuestion, setCurrentRole, clearChat, init, createChat, toggleWithHistory, setModel } = chatStore
 const { toggleDark } = appStore
 
@@ -39,7 +39,7 @@ onMounted(() => {
 <template>
   <div class="h-full flex relative">
     <div class="bg-primary pointer-events-none absolute -left-10 -top-10 aspect-square w-2/5 rounded-full opacity-5 blur-3xl" />
-    <div class="bg-success pointer-events-none absolute aspect-square w-2/5 rounded-full opacity-5 blur-3xl -bottom-10 -right-10" />
+    <div class="bg-blue-400 pointer-events-none absolute aspect-square w-2/5 rounded-full opacity-5 blur-3xl -bottom-10 -right-10" />
     <div class="w-80 border-r h-full border-base-content/20 flex flex-col">
       <div class="p-4 border-b border-base-content/20">
         <button class="btn w-full bg-base-content/10" @click="() => createChat()">
@@ -119,7 +119,7 @@ onMounted(() => {
             </template>
             <!-- AI 当前内容 -->
             <ChatCurrentSpeakConent v-if="aiSpeaking" :content="aiSpeakContent" />
-            <ChatEmptyTipView v-if="currentChat.messages.length === 0" />
+            <ChatEmptyTipView v-if="currentChat.messages.length === 0 && currentRoleType !== GptRole.SYSTEM" />
           </div>
           <div class="p-4">
             <div class="flex gap-3 items-center">

@@ -10,7 +10,7 @@ const { quickAskQuestion } = chatStore
 
 async function refreshQuestion() {
   refreshLoading.value = true
-  await delay(2500)
+  await delay(2000)
   removeAnimateCls.value = false
   refreshLoading.value = false
   questions.value = randomQuestions()

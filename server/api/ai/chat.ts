@@ -5,7 +5,6 @@ const openai = initOpenAI()
 export default defineEventHandler(async (event) => {
   const body = await readBody<ChatInfo>(event)
   const { messages, model } = body
-
   const msgList = messages.map((v) => {
     return { role: v.role, content: v.content }
   })
