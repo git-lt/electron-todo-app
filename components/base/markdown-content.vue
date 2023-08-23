@@ -12,18 +12,20 @@ const props = defineProps<{ value: string }>()
 const appStore = useAppStore()
 
 const renderer = {
-  code(code: string, infostring: string, escaped) {
+  code(code: string, infostring: string) {
+    console.log('infostring--------------------------------', infostring)
     let codeHtml = code
     if (infostring && infostring === 'html')
       codeHtml = encodeURIComponent(code)
 
-    if (infostring)
-      codeHtml = hljs.highlightAuto(code).value
+    // if (infostring)
+    codeHtml = hljs.highlightAuto(code).value
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     window.__hlsCopy = (v: HTMLElement) => {
       appStore.showCopyToast(code, v)
     }
-    // console.log(escaped)
     // console.log(code, infostring, escaped, codeHtml)
 
     return `<div class="bg-black mb-4 rounded-md">
@@ -38,7 +40,7 @@ const renderer = {
         </button>
       </div>
       <div class="p-4 overflow-y-auto">
-        <code class="!whitespace-pre hljs language-${infostring}">${codeHtml}</code>
+        <code class="!whitespace-pre hljs language-${infostring || 'js'}">${codeHtml}</code>
       </div>
     </div>`
   },

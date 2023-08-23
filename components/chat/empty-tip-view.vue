@@ -42,7 +42,7 @@ watch(questions, async (v) => {
       </div>
     </div>
     <div>
-      <div v-for="(item, index) in questions" :key="index" class="group rounded-md mb-2 p-2 bg-base-content/10 w-8/12 pr-10 relative hover:bg-base-content/50 duration-300 transition-colors hover:cursor-pointer" :style="{ 'animation-delay': `${index * 0.3}s`, 'backface-visibility': 'visible' }" :class="{ 'animate-flipInX': !removeAnimateCls }" @click="quickAskQuestion(item)">
+      <div v-for="(item, index) in questions" :key="index" class="group rounded-md mb-2 p-2 bg-base-content/10 w-8/12 pr-10 relative hover:bg-base-content/50 duration-300 transition-colors hover:cursor-pointer" :style="{ 'animation-delay': `${index * 0.15}s`, 'backface-visibility': 'visible' }" :class="{ 'animate-flipInX': !removeAnimateCls }" @click="quickAskQuestion(item)">
         {{ item }}
         <Icon name="ic:baseline-arrow-forward" class="absolute top-3 right-3 opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 duration-300" />
       </div>
